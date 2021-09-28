@@ -1,16 +1,26 @@
 from tkinter import *
 from tkinter import scrolledtext
 import os, time
+import psutil
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
+def sysinfo():
+
+    print('************* системная информация *******************')
+    print(os.name)
+    print(os.environ)
+    # print(os.path.getsize("c:"))
+    totalsize = psutil.disk_usage('C:').total / 2 ** 30
+    print('totalsize: ', totalsize, ' GB')
+    free = psutil.disk_usage("c:").free / (1024 * 1024 * 1024)
+    print(f"{free:.4} Gb free on disk {'C:'}")
+
 def lookmf(d, dn):
 
     txt.delete(1.0, END)
-
-
 
     for root, dirs, files in os.walk(''+str(d)+':'):
 
@@ -34,6 +44,9 @@ def lookmf(d, dn):
         f.write(str(txt.get(1.0, END)))
         f.close()
     # print(str(txt.get(1.0, END)))
+
+    sysinfo()
+
 
 def clicked():
 
