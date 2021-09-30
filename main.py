@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import scrolledtext
 import os, time
 import psutil
+import requests
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
@@ -17,6 +18,7 @@ def sysinfo():
     free = psutil.disk_usage("c:").free / (1024 * 1024 * 1024)
     print('Данные диска: ' + str(psutil.disk_usage('c:')))
     print('Размер диска: ', f"{totalsize:.4}", 'GB,  ',f"{free:.4} Gb свободно на диске: {'C:'}")
+    send_telegram("Леня леня мало места!  " + 'Данные диска D: оптимы: Всего: ' + str(f"{totalsize:.4}") + 'GB  Свободно: ' + str(f"{free:.4}") + 'GB')
     print('Системная статистика диска: ' + str(psutil.disk_io_counters('c:')))
     # print(f"{free:.4} Gb free on disk {'C:'}")
 
@@ -83,6 +85,24 @@ def clicked():
     # print(res)
     lookmf(disk.get(), dney.get())
 
+def send_telegram(text: str):
+    token = "2020935500:AAGLfEtOPoG_XGZrud1wV2Cxw4i6tiiHVus"
+    url = "https://api.telegram.org/bot"
+    channel_id = "@ИМЯ_КАНАЛА"
+    channel_id = "368923109" #Роман
+    # channel_id = "366344003" #Леня
+    url += token
+    method = url + "/sendMessage"
+
+    r = requests.post(method, data={
+         "chat_id": channel_id,
+         "text": text
+          })
+
+    if r.status_code != 200:
+        raise Exception("post_text error")
+
+
 def start():
     global disk, dney, txt
     window = Tk()
@@ -114,7 +134,14 @@ def start():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     # print_hi('PyCharm')
-    start()
+    # start()
     sysinfo()
+
+    # totalsize = psutil.disk_usage('D:').total / 2 ** 30
+    # free = psutil.disk_usage("D:").free / (1024 * 1024 * 1024)
+    # # print('Данные диска: ' + str(psutil.disk_usage('c:')))
+    # # print('Размер диска: ', f"{totalsize:.4}", 'GB,  ', f"{free:.4} Gb свободно на диске: {'C:'}")
+    #
+    # send_telegram("Леня леня мало места!  "+'Данные диска D: оптимы: Всего: ' + str(f"{totalsize:.4}")+'GB  Свободно: '+str(f"{free:.4}")+'GB')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
