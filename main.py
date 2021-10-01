@@ -1,12 +1,32 @@
+# -*- coding: utf-8 -*-
 from tkinter import *
 from tkinter import scrolledtext
 import os, time
 import psutil
 import requests
+import chardet
+import subprocess
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+def ping_srv():
+
+    # res= os.system("ping 91.103.196.107")
+    res= subprocess.check_output("ping 91.103.196.107")
+    # print(chardet.detect(res))
+    # res = str(res).encode('cp1251')
+    res = str(res).encode('cp866')
+
+    # print(chardet.detect(res))
+    print(res.decode('utf-8'))
+    # print(res)
+    # send_telegram("Леня леня мало места!  " + str(res))
+
+    # for f in res:
+    #     # print(f.decode('utf-8'))
+    #     print(dir(f))
 
 def sysinfo():
 
@@ -135,8 +155,8 @@ def start():
 if __name__ == '__main__':
     # print_hi('PyCharm')
     # start()
-    sysinfo()
-
+    # sysinfo()
+    ping_srv()
     # totalsize = psutil.disk_usage('D:').total / 2 ** 30
     # free = psutil.disk_usage("D:").free / (1024 * 1024 * 1024)
     # # print('Данные диска: ' + str(psutil.disk_usage('c:')))
